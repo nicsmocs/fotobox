@@ -1,16 +1,26 @@
-# FotoBox for Raspberry Pi, Linux and macOS [![Travis CI:build status](https://travis-ci.org/tomikais/fotobox.svg?branch=develop)](https://travis-ci.org/tomikais/fotobox) [![GitLab pipeline status](https://gitlab.com/tomikais/fotobox/badges/develop/pipeline.svg)](https://gitlab.com/tomikais/fotobox/-/commits/develop) [![Slack:FotoBox](https://img.shields.io/badge/slack-FotoBox-blue.svg?logo=slack)](https://foto-box.slack.com)
+# FotoBox for Raspberry Pi, Linux and macOS
 
 FotoBox is a free open source multi platform application, that offers you the possibility to operate a photo booth (photobooth).
+
+## NicsMocs edit
+
+* Added Liveview: Latency ca 500ms
+* Added Support for uploading te pics in the cloud
+* Added optional compression before uploading pics in cloud to make them smaller
+
+Use the new preferences on the expert tab to enable the new functionalites. Liveview is enabled by default.    
+This is not tested on MacOS. And I think the pgio thing needs rework too. I don't get it working correctly. 
 
 ## features
 
 * support a variety of different [DSLR camera models](http://www.gphoto.org/proj/libgphoto2/support.php)
 * trigger photos directly or start a countdown by touching, clicking the screen, using soft-/hardware buttons, pressing keyboard shortcuts or using a presenter
 * lightning fast and low-memory Linux / macOS customizable application
+* updated some small things to get this thing to compile
 
 ## Raspberry Pi OS Bullseye installation
 
-Download latest [FotoBox version](https://github.com/tomikais/fotobox/releases) according to your operating system. Extract all files and execute `sudo ./install_dependencies.sh` in a terminal to install all needed dependencies automatically __or__ follow these manual steps:
+Download latest [FotoBox version](https://github.com/nicsmocs/fotobox/releases) according to your operating system. Extract all files and execute `sudo ./install_dependencies.sh` in a terminal to install all needed dependencies automatically __or__ follow these manual steps:
 
 1. update your operating system: `sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade`
 2. install [gPhoto2](http://gphoto.org) when you are using a DSLR camera
