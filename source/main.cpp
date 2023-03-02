@@ -1,6 +1,7 @@
 /* main.cpp
  *
  * Copyright (c) 2016 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -32,9 +33,9 @@ auto main(int argc, char *argv[]) -> int
     splash.show();
 
     //set application information
-    QApplication::setOrganizationName(QStringLiteral("Thomas Kais"));
+    QApplication::setOrganizationName(QStringLiteral("NicsMocs & Thomas Kais"));
     QApplication::setApplicationName(QStringLiteral("FotoBox"));
-    QApplication::setApplicationVersion(QStringLiteral("1.4.0"));
+    QApplication::setApplicationVersion(QStringLiteral("1.6.0"));
 
     QTranslator qtTranslator;
     QTranslator appTranslator;
@@ -60,9 +61,9 @@ auto main(int argc, char *argv[]) -> int
     }
 
     //show preferences dialog and close splashscreen
-    auto *dialog = new FotoBox::Preferences;
+    auto *dialog = new FotoBox::Preferences();
     splash.finish(dialog);
     dialog->show();
 
-    return QApplication::exec();
+    return app.exec();
 }

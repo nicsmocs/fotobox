@@ -1,6 +1,7 @@
 /* fotobox.h
  *
  * Copyright (c) 2016 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -11,6 +12,8 @@
 #include "buzzer.h"
 #include "camera.h"
 #include "countdown.h"
+#include "liveview.h"
+#include "cloudupload.h"
 
 #include <QDialog>
 #include <QThread>
@@ -73,6 +76,8 @@ private Q_SLOTS:
      * \brief show preference dialog and close dialog
      */
     void preferenceDialog();
+    
+    void loadLiveView();
 
 private:
 #if defined(Q_OS_MACOS)
@@ -112,6 +117,10 @@ private:
      */
     void buzzer();
 
+    void liveView();
+    
+    void uploadPic(const QString& path);
+
     /*!
      * \brief try to load the photo to QPixmap
      * \param i_filePath path to photo
@@ -150,6 +159,9 @@ private:
     /*! buzzer using pigpio library */
     Buzzer m_buzzer;
 
+    LiveView* m_liveView;
+    CloudUpload* m_uploader;
+
     /*! Camera (shot photo) */
     Camera m_camera;
 
@@ -179,6 +191,8 @@ Q_SIGNALS:
      * \brief signal: start query pin with Buzzer class
      */
     void startBuzzer();
+
+    void startLiveView();
 };
 
 } // end namespace FotoBox

@@ -1,6 +1,7 @@
 /* preferenceprovider.h
  *
  * Copyright (c) 2018 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -49,6 +50,13 @@ private:
     /*! camera framework arguments */
     QString m_argumentLine;
 
+    QString m_cloudUrl;
+    QString m_cloudUser;
+    QString m_cloudPassword;
+    bool m_useCloud;
+    bool m_useCompression = false;
+    int m_cloudComprSize = 500;
+
     /*! countdown until photo is taken */
     int m_countdown = 0;
 
@@ -93,7 +101,12 @@ public:
     Q_PROPERTY(bool showButtons READ showButtons WRITE setShowButtons NOTIFY showButtonsChanged)
     Q_PROPERTY(bool print READ print WRITE setPrint NOTIFY printChanged)
     Q_PROPERTY(QString printerName READ printerName WRITE setPrinterName NOTIFY printerNameChanged)
-
+    Q_PROPERTY(QString cloudUrl READ cloudUrl WRITE setCloudUrl NOTIFY cloudUrlChanged)
+    Q_PROPERTY(QString cloudUser READ cloudUser WRITE setCloudUser NOTIFY cloudUserChanged)
+    Q_PROPERTY(QString cloudPassword READ cloudPassword WRITE setCloudPassword NOTIFY cloudPasswordChanged)
+    Q_PROPERTY(bool useCloud READ useCloud WRITE setUseCloud NOTIFY useCloudChanged)
+    Q_PROPERTY(int cloudComprSize READ cloudComprSize WRITE setCloudComprSize NOTIFY cloudComprSizeChanged)
+    Q_PROPERTY(bool useCompression READ useCompression WRITE setUseCompression NOTIFY useCompressionChanged)
     /*!
      * \brief PreferenceProvider delete copy constructor (Singleton)
      */
@@ -210,6 +223,14 @@ public:
      */
     auto printerName() const -> QString;
 
+    auto cloudUser() const -> QString;
+    auto cloudUrl() const -> QString;
+    auto cloudPassword() const -> QString;
+    auto useCloud() const -> bool;
+    auto cloudComprSize() const -> int;
+    auto useCompression() const -> bool;
+
+
 public Q_SLOTS:
     /*!
      * \brief set photo output directory
@@ -301,6 +322,13 @@ public Q_SLOTS:
      */
     void setPrinterName(const QString &i_value);
 
+    void setCloudUser(const QString& value);
+    void setCloudUrl(const QString& value);
+    void setCloudPassword(const QString& value);
+    void setUseCloud(bool value);
+    void setCloudComprSize(int value);
+    void setUseCompression(bool value);
+
 Q_SIGNALS:
     /*!
      * \brief signal: photo output directory has changed
@@ -376,6 +404,13 @@ Q_SIGNALS:
      * \brief signal: printer name has changed
      */
     void printerNameChanged(QString);
+
+    void cloudUserChanged(QString);
+    void cloudUrlChanged(QString);
+    void cloudPasswordChanged(QString);
+    void useCloudChanged(bool);
+    void cloudComprSizeChanged(int);
+    void useCompressionChanged(bool);
 };
 
 } // end namespace FotoBox

@@ -2,6 +2,7 @@
 # Project created by QtCreator 2016-10-13T20:58:51
 #
 # Copyright (c) 2016 Thomas Kais
+# Copyright (c) 2023 NicsMocs
 #
 # This file is subject to the terms and conditions defined in
 # file 'COPYING', which is part of this source code package.
@@ -33,22 +34,26 @@ TEMPLATE       = app
 # By default, Qt contains core and gui
 QT            += widgets printsupport
 
-CONFIG        += c++11
+CONFIG        += c++17
 
 INCLUDEPATH   += include
 HEADERS        = \
                  include/buzzer.h \
                  include/camera.h \
+                 include/cloudupload.h \
                  include/countdown.h \
                  include/fotobox.h \
+                 include/liveview.h \
                  include/preferenceprovider.h \
                  include/preferences.h
 
 SOURCES        = source/main.cpp \
                  source/buzzer.cpp \
                  source/camera.cpp \
+                 source/cloudupload.cpp \
                  source/countdown.cpp \
                  source/fotobox.cpp \
+                 source/liveview.cpp \
                  source/preferenceprovider.cpp \
                  source/preferences.cpp
 

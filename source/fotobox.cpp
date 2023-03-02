@@ -1,6 +1,7 @@
 /* fotobox.cpp
  *
  * Copyright (c) 2016 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -15,6 +16,9 @@
 #include <QDir>
 #include <QKeyEvent>
 #include <QPainter>
+#include <QThread>
+#include <iostream>
+#include <QStandardPaths>
 
 namespace FotoBox {
 
@@ -48,13 +52,15 @@ FotoBox::FotoBox(QWidget *parent)
 
     //Buzzer class (Raspberry Pi GPIO using pigpio)
 #if defined(BUZZER_AVAILABLE)
-    if (PreferenceProvider::instance().queryInterval() > 0) {
+    if (PreferenceProvider::instance().queryInterval() > 0)
+    {
         buzzer();
     }
 #endif
 
     //countdown?
     countdown();
+    liveView();
 }
 
 void FotoBox::buttons()
@@ -102,6 +108,21 @@ void FotoBox::buzzer()
 #endif
 }
 
+void FotoBox::liveView()
+{
+    QThread* lvThread = new QThread; 
+    m_liveView = new LiveView();
+    m_liveView->moveToThread(lvThread);
+
+    m_liveView->enableLiveView(true);
+    connect(m_liveView, SIGNAL(triggered()), this, SLOT(loadLiveView()));
+    connect(m_liveView, SIGNAL(finished()), lvThread, SLOT(quit()));
+    connect(m_liveView, SIGNAL(finished()), m_liveView, SLOT(deleteLater()));
+    connect(lvThread, SIGNAL(started()), m_liveView, SLOT(run()));
+    connect(lvThread, SIGNAL(finished()), lvThread, SLOT(deleteLater()));
+
+    lvThread->start();
+}
 
 void FotoBox::countdown()
 {
@@ -143,6 +164,7 @@ FotoBox::~FotoBox()
     //terminate and delete Buzzer thread
     m_workerThread.quit();
     m_workerThread.wait();
+    m_liveView->shutdownLiveView();
 
     delete m_ui;
 }
@@ -189,7 +211,7 @@ void FotoBox::mouseReleaseEvent(QMouseEvent *event)
 void FotoBox::preferenceDialog()
 {
     //Preferences dialog
-    auto *dialog = new Preferences;
+    auto *dialog = new Preferences();
 
     //restore mouse cursor
     QApplication::restoreOverrideCursor();
@@ -207,8 +229,10 @@ void FotoBox::preferenceDialog()
 
 void FotoBox::photo()
 {
+    m_liveView->enableLiveView(false);
     //show label and hide other widgets
     m_ui->lcdCountdown->hide();
+    QThread::msleep(500);
     QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 
     //remove current photo
@@ -219,7 +243,12 @@ void FotoBox::photo()
     //take a photo
     if (m_camera.shootPhoto()) {
         //load photo
-        loadPhoto(m_photoDir + m_camera.currentPhoto());
+        QString path = m_photoDir + m_camera.currentPhoto();
+        if(PreferenceProvider::instance().useCloud())
+        {
+            uploadPic(path);
+        }
+        loadPhoto(path);
     } else {
         m_ui->statusBar->showMessage(tr("Error: Taking a photo isn't working correctly!"), STATUSBAR_MSG_TIMEOUT);
     }
@@ -233,6 +262,22 @@ void FotoBox::photo()
         emit startBuzzer();
     }
 #endif
+    m_liveView->enableLiveViewDelayed();
+}
+
+void FotoBox::uploadPic(const QString &filePath)
+{
+    QThread* uploadThread = new QThread; 
+    m_uploader = new CloudUpload();
+    m_uploader->setPath(filePath);
+    m_uploader->moveToThread(uploadThread);
+
+    connect(m_uploader, SIGNAL(finished()), uploadThread, SLOT(quit()));
+    connect(m_uploader, SIGNAL(finished()), m_uploader, SLOT(deleteLater()));
+    connect(uploadThread, SIGNAL(started()), m_uploader, SLOT(run()));
+    connect(uploadThread, SIGNAL(finished()), uploadThread, SLOT(deleteLater()));
+
+    uploadThread->start();
 }
 
 void FotoBox::loadPhoto(const QString &i_filePath)
@@ -254,6 +299,18 @@ void FotoBox::loadPhoto(const QString &i_filePath)
         m_ui->lblPhoto->repaint();
     } else {
         m_ui->statusBar->showMessage(tr("Couldn't load the photo."), STATUSBAR_MSG_TIMEOUT);
+    }
+}
+
+void FotoBox::loadLiveView()
+{
+    if (m_photo.load(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/feed.jpg"))
+    {
+        m_ui->lblPhoto->setPixmap(m_photo);
+        m_ui->lblPhoto->repaint();
+    } else 
+    {
+        m_ui->statusBar->showMessage(tr("Couldn't load liveView"), STATUSBAR_MSG_TIMEOUT);
     }
 }
 

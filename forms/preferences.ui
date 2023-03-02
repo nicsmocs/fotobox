@@ -4,6 +4,7 @@
  <comment>
  #------------------------------------------------------------
  # Copyright (c) 2018 Thomas Kais
+ # Copyright (c) 2023 NicsMocs
  #
  # This file is subject to the terms and conditions defined in
  # file 'COPYING', which is part of this source code package.
@@ -15,8 +16,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>550</height>
+    <width>851</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -45,8 +46,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>762</width>
-        <height>496</height>
+        <width>833</width>
+        <height>584</height>
        </rect>
       </property>
       <property name="mouseTracking">
@@ -59,7 +60,7 @@
           <bool>true</bool>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tabGeneral">
           <property name="mouseTracking">
@@ -378,64 +379,37 @@
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayoutTabExpert">
            <item>
-            <layout class="QGridLayout" name="gridLayoutTabExpert" columnstretch="0,1,2,1">
-             <item row="4" column="0">
-              <widget class="QLabel" name="lblCameraExpert">
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
+            <layout class="QGridLayout" name="gridLayoutTabExpert" columnstretch="0,0,0,0,0">
+             <item row="2" column="0">
+              <widget class="QLabel" name="lblOutputPin">
                <property name="text">
-                <string>Camera</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QSpinBox" name="spbOutputPin">
-               <property name="maximum">
-                <number>40</number>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="lblInputPin">
-               <property name="text">
-                <string>input PIN</string>
+                <string>output PIN</string>
                </property>
                <property name="buddy">
-                <cstring>spbInputPin</cstring>
+                <cstring>spbOutputPin</cstring>
                </property>
               </widget>
              </item>
-             <item row="5" column="3">
-              <widget class="QToolButton" name="btnArgumentLineHelp"/>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="lblBuzzer">
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
+             <item row="1" column="3" rowspan="3" colspan="2">
+              <widget class="QLabel" name="lblPinInfo">
                <property name="text">
-                <string>Buzzer</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#Type_1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Type 1&lt;/span&gt;&lt;/a&gt; - Model B (original model)&lt;br/&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#Type_2&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Type 2&lt;/span&gt;&lt;/a&gt; - Model A, B (revision 2)&lt;br/&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#Type_3&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Type 3&lt;/span&gt;&lt;/a&gt; - Model A+, B+, Pi Zero, Pi2B, Pi3B&lt;br/&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#CM&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Compute Module&lt;/span&gt;&lt;/a&gt; - Compute Module&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QSpinBox" name="spbInputPin">
-               <property name="maximum">
-                <number>40</number>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                </property>
-              </widget>
-             </item>
-             <item row="5" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtArgumentLine">
-               <property name="clearButtonEnabled">
+               <property name="wordWrap">
                 <bool>true</bool>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QSpinBox" name="spbTimout">
+               <property name="suffix">
+                <string> seconds</string>
                </property>
               </widget>
              </item>
@@ -462,20 +436,78 @@
                </property>
               </widget>
              </item>
-             <item row="6" column="1">
-              <widget class="QSpinBox" name="spbTimout">
-               <property name="suffix">
-                <string> seconds</string>
+             <item row="9" column="1">
+              <widget class="QLineEdit" name="lineEdit_cloud_password">
+               <property name="inputMethodHints">
+                <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="lblOutputPin">
+             <item row="0" column="2" colspan="3">
+              <widget class="QLabel" name="lblPigpioDeamon">
                <property name="text">
-                <string>output PIN</string>
+                <string/>
                </property>
-               <property name="buddy">
-                <cstring>spbOutputPin</cstring>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QSpinBox" name="spbOutputPin">
+               <property name="maximum">
+                <number>40</number>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Passwort</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Cloud</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <widget class="QCheckBox" name="checkBox_cloud">
+               <property name="text">
+                <string>enable/disable upload Cloud</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Username</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="1">
+              <widget class="QLineEdit" name="lineEdit_cloud_username"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="spbInputPin">
+               <property name="maximum">
+                <number>40</number>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>URL</string>
                </property>
               </widget>
              </item>
@@ -499,26 +531,93 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="2" rowspan="3" colspan="2">
-              <widget class="QLabel" name="lblPinInfo">
+             <item row="5" column="4">
+              <widget class="QToolButton" name="btnArgumentLineHelp"/>
+             </item>
+             <item row="10" column="1">
+              <widget class="QLineEdit" name="lineEdit_cloud_url"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="lblInputPin">
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#Type_1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Type 1&lt;/span&gt;&lt;/a&gt; - Model B (original model)&lt;br/&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#Type_2&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Type 2&lt;/span&gt;&lt;/a&gt; - Model A, B (revision 2)&lt;br/&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#Type_3&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Type 3&lt;/span&gt;&lt;/a&gt; - Model A+, B+, Pi Zero, Pi2B, Pi3B&lt;br/&gt;&lt;a href=&quot;http://abyz.me.uk/rpi/pigpio/index.html#CM&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Compute Module&lt;/span&gt;&lt;/a&gt; - Compute Module&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>input PIN</string>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               <property name="buddy">
+                <cstring>spbInputPin</cstring>
                </property>
-               <property name="wordWrap">
-                <bool>true</bool>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="lblCameraExpert">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
                </property>
-               <property name="openExternalLinks">
+               <property name="text">
+                <string>Camera</string>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Compress Pics</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1" colspan="2">
+              <widget class="QLineEdit" name="txtArgumentLine">
+               <property name="clearButtonEnabled">
                 <bool>true</bool>
                </property>
               </widget>
              </item>
-             <item row="0" column="1" colspan="3">
-              <widget class="QLabel" name="lblPigpioDeamon">
+             <item row="0" column="0">
+              <widget class="QLabel" name="lblBuzzer">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
-                <string/>
+                <string>Buzzer</string>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Size</string>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="1">
+              <widget class="QCheckBox" name="checkBox_cloud_compress">
+               <property name="text">
+                <string>enable/disable before uploading</string>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="1">
+              <widget class="QSpinBox" name="spinBox_cloud_compress_size">
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>2000</number>
+               </property>
+               <property name="value">
+                <number>500</number>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="2">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>kByte</string>
                </property>
               </widget>
              </item>
@@ -584,12 +683,6 @@
   <tabstop>chbGrayscale</tabstop>
   <tabstop>chbPrint</tabstop>
   <tabstop>cmbPrinterName</tabstop>
-  <tabstop>spbInputPin</tabstop>
-  <tabstop>spbOutputPin</tabstop>
-  <tabstop>spbQueryInterval</tabstop>
-  <tabstop>txtArgumentLine</tabstop>
-  <tabstop>btnArgumentLineHelp</tabstop>
-  <tabstop>spbTimout</tabstop>
  </tabstops>
  <resources/>
  <connections/>

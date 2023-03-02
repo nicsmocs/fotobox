@@ -1,6 +1,7 @@
 /* camera.h
  *
  * Copyright (c) 2017 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -8,7 +9,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <QObject>
 #include <QProcess>
 
 namespace FotoBox {
@@ -86,6 +86,7 @@ private:
 
     /*! executing commands */
     QProcess m_process;
+    
 };
 
 } // end namespace FotoBox

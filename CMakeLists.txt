@@ -1,5 +1,6 @@
 #------------------------------------------------------------
 # Copyright (c) 2018 Thomas Kais
+# Copyright (c) 2023 NicsMocs
 #
 # This file is subject to the terms and conditions defined in
 # file 'COPYING', which is part of this source code package.
@@ -33,7 +34,7 @@ if(Qt5Core_FOUND)
     endif()
 endif()
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Running moc/uic/rcc automatically
@@ -47,8 +48,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(HEADERS
     ${PROJECT_SOURCE_DIR}/include/buzzer.h
     ${PROJECT_SOURCE_DIR}/include/camera.h
+    ${PROJECT_SOURCE_DIR}/include/cloudupload.h
     ${PROJECT_SOURCE_DIR}/include/countdown.h
     ${PROJECT_SOURCE_DIR}/include/fotobox.h
+    ${PROJECT_SOURCE_DIR}/include/liveview.h
     ${PROJECT_SOURCE_DIR}/include/preferenceprovider.h
     ${PROJECT_SOURCE_DIR}/include/preferences.h
     )
@@ -56,8 +59,10 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/source/main.cpp
     ${PROJECT_SOURCE_DIR}/source/buzzer.cpp
     ${PROJECT_SOURCE_DIR}/source/camera.cpp
+    ${PROJECT_SOURCE_DIR}/source/cloudupload.cpp
     ${PROJECT_SOURCE_DIR}/source/countdown.cpp
     ${PROJECT_SOURCE_DIR}/source/fotobox.cpp
+    ${PROJECT_SOURCE_DIR}/source/liveview.cpp
     ${PROJECT_SOURCE_DIR}/source/preferenceprovider.cpp
     ${PROJECT_SOURCE_DIR}/source/preferences.cpp
     )
@@ -181,9 +186,6 @@ endif()
 if(WIN32)
   set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE true)
 endif()
-
-
-
 
 # clang tidy
 if(ENABLE_CLANG_TIDY)

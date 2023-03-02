@@ -1,6 +1,7 @@
 /* preferences.cpp
  *
  * Copyright (c) 2018 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -142,6 +143,13 @@ void Preferences::connectUi()
     connect(m_ui->chbPrint, &QAbstractButton::toggled, &PreferenceProvider::instance(), &PreferenceProvider::setPrint);
     connect(m_ui->cmbPrinterName, &QComboBox::currentTextChanged, &PreferenceProvider::instance(), &PreferenceProvider::setPrinterName);
 
+    connect(m_ui->checkBox_cloud,&QAbstractButton::toggled,&PreferenceProvider::instance(), &PreferenceProvider::setUseCloud);
+    connect(m_ui->lineEdit_cloud_username,&QLineEdit::textChanged,&PreferenceProvider::instance(), &PreferenceProvider::setCloudUser);
+    connect(m_ui->lineEdit_cloud_password,&QLineEdit::textChanged,&PreferenceProvider::instance(), &PreferenceProvider::setCloudPassword);
+    connect(m_ui->lineEdit_cloud_url,&QLineEdit::textChanged,&PreferenceProvider::instance(), &PreferenceProvider::setCloudUrl);
+    connect(m_ui->checkBox_cloud_compress,&QAbstractButton::toggled,&PreferenceProvider::instance(), &PreferenceProvider::setUseCompression);
+    connect(m_ui->spinBox_cloud_compress_size,static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),&PreferenceProvider::instance(), &PreferenceProvider::setCloudComprSize);
+
     //connect buttons
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &Preferences::startFotoBox);
     connect(m_ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
@@ -174,7 +182,7 @@ void Preferences::startFotoBox()
     savePreferences();
 
     //Start FotoBox;
-    auto *dialog = new FotoBox;
+    auto *dialog = new FotoBox();
 
     //close dialog and start fotobox
     reject();
@@ -240,6 +248,15 @@ void Preferences::loadPreferences()
 
     m_ui->spbTimout->setValue(m_settings.value(m_ui->spbTimout->objectName(), m_ui->spbTimout->value()).toInt());
     m_ui->chbGrayscale->setChecked(m_settings.value(m_ui->chbGrayscale->objectName(), m_ui->chbGrayscale->isChecked()).toBool());
+    m_settings.endGroup();
+
+    m_settings.beginGroup(QStringLiteral("Cloud"));
+    m_ui->checkBox_cloud->setChecked(m_settings.value(m_ui->checkBox_cloud->objectName(), m_ui->checkBox_cloud->isChecked()).toBool());
+    m_ui->lineEdit_cloud_username->setText(m_settings.value(m_ui->lineEdit_cloud_username->objectName(), m_ui->lineEdit_cloud_username->text()).toString());
+    m_ui->lineEdit_cloud_password->setText(m_settings.value(m_ui->lineEdit_cloud_password->objectName(), m_ui->lineEdit_cloud_password->text()).toString());
+    m_ui->lineEdit_cloud_url->setText(m_settings.value(m_ui->lineEdit_cloud_url->objectName(), m_ui->lineEdit_cloud_url->text()).toString());
+    m_ui->checkBox_cloud_compress->setChecked(m_settings.value(m_ui->checkBox_cloud_compress->objectName(), m_ui->checkBox_cloud_compress->isChecked()).toBool());
+    m_ui->spinBox_cloud_compress_size->setValue(m_settings.value(m_ui->spinBox_cloud_compress_size->objectName(), m_ui->spinBox_cloud_compress_size->value()).toInt());
     m_settings.endGroup();
 
     m_settings.beginGroup(QStringLiteral("PrintSetup"));
@@ -410,6 +427,15 @@ void Preferences::savePreferences()
     m_settings.setValue(m_ui->chbGrayscale->objectName(), PreferenceProvider::instance().grayscale());
     m_settings.endGroup();
 
+    m_settings.beginGroup(QStringLiteral("Cloud"));
+    m_settings.setValue(m_ui->checkBox_cloud->objectName(), PreferenceProvider::instance().useCloud());
+    m_settings.setValue(m_ui->lineEdit_cloud_username->objectName(), PreferenceProvider::instance().cloudUser());
+    m_settings.setValue(m_ui->lineEdit_cloud_password->objectName(), PreferenceProvider::instance().cloudPassword());
+    m_settings.setValue(m_ui->lineEdit_cloud_url->objectName(), PreferenceProvider::instance().cloudUrl());
+    m_settings.setValue(m_ui->checkBox_cloud_compress->objectName(), PreferenceProvider::instance().useCompression());
+    m_settings.setValue(m_ui->spinBox_cloud_compress_size->objectName(), PreferenceProvider::instance().cloudComprSize());
+    m_settings.endGroup();
+
     m_settings.beginGroup(QStringLiteral("PrintSetup"));
     m_settings.setValue(m_ui->chbPrint->objectName(), PreferenceProvider::instance().print());
     m_settings.setValue(m_ui->cmbPrinterName->objectName(), PreferenceProvider::instance().printerName());
@@ -437,6 +463,14 @@ void Preferences::restoreDefaultPreferences()
     m_ui->cmbCameraMode->addItem(QStringLiteral("raspistill"), "--output %1 --width 1920 --height 1080 --quality 75 --nopreview --timeout 1");
     m_ui->spbTimout->setValue(DEFAULT_TIMEOUT);
     m_ui->chbGrayscale->setChecked(false);
+
+    //cloud
+    m_ui->checkBox_cloud->setChecked(false);
+    m_ui->lineEdit_cloud_username->setText("");
+    m_ui->lineEdit_cloud_password->setText("");
+    m_ui->lineEdit_cloud_url->setText("");
+    m_ui->checkBox_cloud_compress->setChecked(false);
+    m_ui->spinBox_cloud_compress_size->setValue(500);
 
     //Print Setup
     //get all printers and preselect default printer

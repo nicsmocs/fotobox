@@ -3,19 +3,16 @@ set -Eeuo pipefail
 
 #------------------------------------------------------------
 # Copyright (c) 2019 Thomas Kais
+# Copyright (c) 2023 NicsMocs
 #
 # This file is subject to the terms and conditions defined in
 # file 'COPYING', which is part of this source code package.
 #------------------------------------------------------------
 
-
-
 if [ "$(whoami)" != "root" ]; then
     echo "Sorry, this script must be executed with 'sudo' or as root user"
     exit 1
 fi
-
-
 
 echo
 echo "-------------------------------------------"
@@ -30,19 +27,14 @@ if [[ "$response" =~ ^(no|n)$ ]]; then
     exit 0;
 fi
 
-
-
 echo
 echo "----------------------"
 echo "Updating dependencies"
 echo "----------------------"
 echo
 
-apt-get update --quiet
-apt-get upgrade --quiet --yes
-apt-get dist-upgrade --quiet --yes
-
-
+apt update --quiet
+apt upgrade --quiet --yes
 
 echo
 echo "-----------------------"
@@ -50,13 +42,13 @@ echo "Installing dependencies"
 echo "-----------------------"
 echo
 
-apt-get install --quiet --yes \
+apt install --quiet --yes \
             gphoto2 \
             libgphoto2-6 \
             pigpio \
-            qtbase5-dev
-
-
+            qtbase5-dev \
+            qttools5-dev \
+            jpegoptim
 
 echo
 echo "--------------------"
@@ -66,8 +58,6 @@ echo
 
 systemctl enable pigpiod
 systemctl start pigpiod
-
-
 
 echo
 echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!"

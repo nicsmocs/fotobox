@@ -1,6 +1,7 @@
 /* preferenceprovider.cpp
  *
  * Copyright (c) 2018 Thomas Kais
+ * Copyright (c) 2023 NicsMocs
  *
  * This file is subject to the terms and conditions defined in
  * file 'COPYING', which is part of this source code package.
@@ -57,7 +58,7 @@ auto PreferenceProvider::countdown() const -> int
     return m_countdown;
 }
 
-void PreferenceProvider::setCountdown(const int i_value)
+void PreferenceProvider::setCountdown(int i_value)
 {
     if (m_countdown == i_value) {
         return;
@@ -132,7 +133,7 @@ auto PreferenceProvider::inputPin() const -> unsigned int
     return m_inputPin;
 }
 
-void PreferenceProvider::setInputPin(const unsigned int i_value)
+void PreferenceProvider::setInputPin(unsigned int i_value)
 {
     if (m_inputPin == i_value) {
         return;
@@ -147,7 +148,7 @@ auto PreferenceProvider::outputPin() const -> unsigned int
     return m_outputPin;
 }
 
-void PreferenceProvider::setOutputPin(const unsigned int i_value)
+void PreferenceProvider::setOutputPin(unsigned int i_value)
 {
     if (m_outputPin == i_value) {
         return;
@@ -162,7 +163,7 @@ auto PreferenceProvider::queryInterval() const -> unsigned int
     return m_queryInterval;
 }
 
-void PreferenceProvider::setQueryInterval(const unsigned int i_value)
+void PreferenceProvider::setQueryInterval(unsigned int i_value)
 {
     if (m_queryInterval == i_value) {
         return;
@@ -207,7 +208,7 @@ auto PreferenceProvider::showButtons() const -> bool
     return m_showButtons;
 }
 
-void PreferenceProvider::setShowButtons(const bool i_value)
+void PreferenceProvider::setShowButtons(bool i_value)
 {
     if (m_showButtons == i_value) {
         return;
@@ -222,7 +223,7 @@ auto PreferenceProvider::print() const -> bool
     return m_print;
 }
 
-void PreferenceProvider::setPrint(const bool i_value)
+void PreferenceProvider::setPrint(bool i_value)
 {
     if (m_print == i_value) {
         return;
@@ -247,4 +248,64 @@ void PreferenceProvider::setPrinterName(const QString& i_value)
     Q_EMIT printerNameChanged(m_printerName);
 }
 
+auto PreferenceProvider::cloudUser() const -> QString
+{
+    return m_cloudUser;
+}
+
+auto PreferenceProvider::cloudUrl() const -> QString
+{
+    return m_cloudUrl;
+}
+
+auto PreferenceProvider::cloudPassword() const -> QString
+{
+    return m_cloudPassword;
+}
+
+auto PreferenceProvider::useCloud() const -> bool
+{
+    return m_useCloud;
+}
+
+auto PreferenceProvider::useCompression() const -> bool
+{
+    return m_useCompression;
+}
+
+auto PreferenceProvider::cloudComprSize() const -> int
+{
+    return m_cloudComprSize;
+}
+
+void PreferenceProvider::setCloudUser(const QString& value)
+{
+    m_cloudUser = value;
+    emit cloudUserChanged(value);
+}
+void PreferenceProvider::setCloudUrl(const QString& value)
+{
+    m_cloudUrl = value;
+    emit cloudUrlChanged(value);
+}
+void PreferenceProvider::setCloudPassword(const QString& value)
+{
+    m_cloudPassword = value;
+    emit cloudPasswordChanged(value);
+}
+void PreferenceProvider::setUseCloud(bool value)
+{
+    m_useCloud = value;
+    emit useCloudChanged(value);
+}
+void PreferenceProvider::setCloudComprSize(int value)
+{
+    m_cloudComprSize = value;
+    emit cloudComprSizeChanged(value);
+}
+void PreferenceProvider::setUseCompression(bool value)
+{
+    m_useCompression = value;
+    emit useCompressionChanged(value);
+}
 } // end namespace FotoBox
